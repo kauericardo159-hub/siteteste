@@ -8,9 +8,29 @@
 </head>
 <body>
 
-    <div id="app">
-        <h1>Bem-vindo ao Project Z Clone</h1>
-        <p>Carregando seus chats...</p>
+    <div id="loading" class="tela-centrada">
+        <div class="spinner"></div>
+        <p>Verificando sessão...</p>
+    </div>
+
+    <div id="main-content" class="home-container" style="display: none;">
+        <header class="home-header">
+            <div class="user-info">
+                <div class="avatar-placeholder"></div>
+                <div>
+                    <h2 id="user-username">@carregando...</h2>
+                    <span id="user-id" class="badge-id">ID: ...</span>
+                </div>
+            </div>
+            <button id="btn-sair" class="btn-sair">Sair</button>
+        </header>
+
+        <main class="home-body">
+            <div class="welcome-box">
+                <h3>Bem-vindo ao feed do Project Z Clone!</h3>
+                <p>O seu servidor e o banco de dados estão conectados. Em breve, os chats e círculos aparecerão aqui.</p>
+            </div>
+        </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

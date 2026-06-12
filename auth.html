@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Z Clone - Entrar / Cadastrar</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-logo">
+            <h1>Project <span>Z</span></h1>
+            <p id="auth-subtitulo">Entre na sua conta para conversar</p>
+        </div>
+
+        <form id="form-login" class="auth-form">
+            <div class="input-group">
+                <label for="login-email">E-mail</label>
+                <input type="email" id="login-email" required placeholder="seuemail@email.com">
+            </div>
+            
+            <div class="input-group">
+                <label for="login-senha">Senha</label>
+                <input type="password" id="login-senha" required placeholder="Sua senha">
+            </div>
+
+            <button type="submit" class="btn-auth">Entrar</button>
+            <p class="mudar-tela">Não tem uma conta? <a href="#" id="ir-para-cadastro">Criar conta</a></p>
+        </form>
+
+        <form id="form-cadastro" class="auth-form" style="display: none;">
+            <div class="input-group">
+                <label for="cad-username">Escolha seu @ (Username)</label>
+                <input type="text" id="cad-username" required placeholder="ex: usuario_123" autocomplete="off">
+                <small class="input-dica">Apenas letras minúsculas, números, _ ou -</small>
+            </div>
+
+            <div class="input-group">
+                <label for="cad-email">E-mail</label>
+                <input type="email" id="cad-email" required placeholder="seuemail@email.com">
+            </div>
+            
+            <div class="input-group">
+                <label for="cad-senha">Senha (Mínimo 6 dígitos)</label>
+                <input type="password" id="cad-senha" required placeholder="Crie uma senha segura">
+            </div>
+
+            <button type="submit" class="btn-auth btn-cadastro">Criar minha conta</button>
+            <p class="mudar-tela">Já tem uma conta? <a href="#" id="ir-para-login">Fazer Login</a></p>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
