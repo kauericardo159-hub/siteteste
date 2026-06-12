@@ -63,6 +63,12 @@ body {
     font-weight: 500;
 }
 
+.opcional {
+    color: #7c7c8a;
+    font-size: 12px;
+    font-weight: normal;
+}
+
 .input-group input {
     background-color: #121214;
     border: 1px solid #29292e;
@@ -102,7 +108,7 @@ body {
 }
 
 .btn-cadastro {
-    background-color: #8257e5; /* Roxo para diferenciar o cadastro */
+    background-color: #8257e5; /* Roxo estilo Project Z */
     color: #fff;
 }
 
