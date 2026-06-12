@@ -1,53 +1,50 @@
-// Aguarda a página carregar
 document.addEventListener("DOMContentLoaded", async () => {
-    // 1. Verifica se existe uma sessão ativa (usuário logado) no Supabase Auth
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-    if (sessionError || !session) {
-        // Se deu erro ou NÃO achou sessão, manda direto para a tela de login
-        window.location.href = "/auth";
-        return;
-    }
-
-    // Se o usuário está logado, pegamos o ID único dele gerado pelo Supabase Auth
-    const usuarioId = session.user.id;
-
     try {
-        // 2. Vai na tabela 'perfis' buscar os metadados (o @username único) desse ID
-        const { data: perfil, error: perfilError } = await supabase
+        // 1. Checa o estado da sessão local no navegador
+        const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+
+        if (sessionError || !session) {
+            console.warn("Nenhuma sessão ativa detectada. Redirecionando para login.");
+            window.location.replace("/auth");
+            return;
+        }
+
+        const usuarioId = session.user.id;
+
+        // 2. Consulta os metadados do perfil na tabela pública
+        const { data: perfil, error: perfilError } = await supabaseClient
             .from('perfis')
             .select('username')
             .eq('id', usuarioId)
-            .single(); // Traz apenas 1 registro correspondente
+            .maybeSingle(); // Evita travar se retornar vazio
 
         if (perfilError || !perfil) {
-            throw new Error("Perfil não encontrado no banco de dados.");
+            throw new Error("Seu registro de @username não foi localizado no banco de dados.");
         }
 
-        // 3. Injeta os dados reais na tela HTML
-        document.getElementById("user-username").innerText = `@${perfil.username}`;
-        document.getElementById("user-id").innerText = `ID: ${usuarioId}`;
+        // 3. Renderiza os dados limpando ameaças de scripts maliciosos (XSS)
+        document.getElementById("user-username").textContent = `@${perfil.username}`;
+        document.getElementById("user-id").textContent = `ID: ${usuarioId}`;
 
-        // 4. Esconde o "Carregando" e exibe o conteúdo da Home
+        // 4. Alterna visibilidade de telas
         document.getElementById("loading").style.display = "none";
         document.getElementById("main-content").style.display = "flex";
 
     } catch (err) {
-        console.error(err.message);
-        alert("Erro ao carregar os dados do seu perfil.");
-        // Se houver falha crítica, força o logout por segurança
-        await supabase.auth.signOut();
-        window.location.href = "/auth";
+        console.error("Erro na inicialização da Home:", err.message);
+        alert(`Erro de Autenticação: ${err.message}`);
+        
+        // Força limpeza de resíduos de sessão quebrada e ejeta
+        await supabaseClient.auth.signOut();
+        window.location.replace("/auth");
     }
 });
 
-// Lógica do Botão Sair (Deslogar)
+// Deslogar
 document.getElementById("btn-sair").addEventListener("click", async () => {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabaseClient.auth.signOut();
     if (error) {
-        alert("Erro ao deslogar.");
-    } else {
-        // Manda de volta pro login após deslogar com sucesso
-        window.location.href = "/auth";
+        alert("Erro técnico ao encerrar sessão: " + error.message);
     }
+    window.location.replace("/auth");
 });
