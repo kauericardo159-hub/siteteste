@@ -1,0 +1,10 @@
+# Bloqueia a pasta de dependências do Node (o Render baixa isso sozinho)
+node_modules/
+
+# Bloqueia arquivos de configuração local e senhas
+.env
+
+# Bloqueia arquivos temporários do sistema operacional
+.DS_Store
+Thumbs.db
+
